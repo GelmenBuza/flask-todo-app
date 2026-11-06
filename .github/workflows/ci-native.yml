@@ -1,0 +1,40 @@
+name: Flask App
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/chekout@v4
+
+      - name: Set up
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install
+        run: |
+          python -m pip install --upgrage pip
+          pip install -r requirements.txt
+
+      - name: Initiolize
+        run: |
+          python -c "import sqlite3; con = sqlite3.connect(todo.db); con.close()" || true
+          if [ -f init_db.py]; then python init.py; fi
+      - name: Test
+        run: |
+          export FLASK_APP=app.py
+          python -m flask tun --host=127.0.o.1 --port=5000 &
+          sleep 5
+          curl -i http://127.0.o.1:5000/

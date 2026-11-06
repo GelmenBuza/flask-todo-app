@@ -33,6 +33,7 @@ jobs:
           python -c "import sqlite3; con = sqlite3.connect('todo.db'); con.close()" || true
           if [ -f init_db.py ]; then python init.py; fi
 
+
       - name: Test
         run: |
           python manage.py run --host=127.0.0.1 --port=5000 &
